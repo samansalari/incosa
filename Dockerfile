@@ -1,18 +1,18 @@
-FROM node:20-slim
-
+# Build stage
+FROM node:20-slim AS build
 WORKDIR /app
-
 COPY package*.json ./
-
 RUN npm install
-
 COPY . .
-
 RUN npm run build
 
+# Production stage
+FROM node:20-slim
+WORKDIR /app
 ENV NODE_ENV=production
-ENV PORT=3000
-
+COPY package*.json ./
+RUN npm install --only=production
+COPY --from=build /app/dist ./dist
+COPY server.js ./
 EXPOSE 3000
-
-CMD ["npx", "vite", "preview", "--host", "0.0.0.0", "--port", "3000"]
+CMD ["node", "server.js"]
