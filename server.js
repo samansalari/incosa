@@ -4,34 +4,19 @@ const path = require('path');
 const app = express();
 const port = process.env.PORT || 3000;
 
-console.log('Starting server...');
-console.log('PORT:', port);
-console.log('NODE_ENV:', process.env.NODE_ENV);
-console.log('Dist path:', path.join(__dirname, 'dist'));
+// Trust proxy - important for Railway
+app.set('trust proxy', true);
 
-// Log all requests
-app.use((req, res, next) => {
-  console.log(`${req.method} ${req.path}`);
-  next();
-});
+// Serve static files
+app.use(express.static(path.join(__dirname, 'dist')));
 
-// Serve static files from dist
-app.use(express.static(path.join(__dirname, 'dist'), {
-  maxAge: '1y',
-  etag: true
-}));
-
-// Health check endpoint
+// Health check
 app.get('/health', (req, res) => {
+  res.setHeader('Content-Type', 'application/json');
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
-// Root endpoint
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
-});
-
-// Route handlers for each HTML page
+// SPA routes
 app.get('/observatory', (req, res) => {
   res.sendFile(path.join(__dirname, 'dist', 'observatory.html'));
 });
@@ -48,11 +33,18 @@ app.get('/contact', (req, res) => {
   res.sendFile(path.join(__dirname, 'dist', 'contact.html'));
 });
 
-// Default handler: send back index.html
+// Default to index.html
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 
+// Error handling
+app.use((err, req, res, next) => {
+  console.error(err);
+  res.status(500).json({ error: 'Internal server error' });
+});
+
 app.listen(port, '0.0.0.0', () => {
   console.log(`Server running on port ${port}`);
+  console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
 });

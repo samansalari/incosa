@@ -1,11 +1,8 @@
 [phases.build]
-cmds = ["npm run build", "npm install"]
+cmds = ["npm install", "npm run build"]
 
 [phases.start]
-cmd = "npm start"
+cmd = "node server.js"
 
 [static]
 nginx = false
-
-[build.env]
-NODE_ENV = "production"
