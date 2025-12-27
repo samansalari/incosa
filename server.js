@@ -7,7 +7,7 @@ const port = process.env.PORT || 3000;
 
 // Database connection
 const client = new Client({
-  connectionString: process.env.DATABASE_URL || 'postgresql://postgres:irmMpsfQdvYRTuqegZJpfDUTkGUTUJnH@turntable.proxy.rlwy.net:45203/railway',
+  connectionString: process.env.DATABASE_URL || 'postgresql://postgres:irmMpsfQdvYRTuqegZJpfDUTkGUTUJnH@turntable.proxy.rlwy.net:45203/railway?sslmode=require',
   ssl: { rejectUnauthorized: false },
 });
 
