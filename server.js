@@ -5,6 +5,10 @@ const path = require('path');
 const app = express();
 const port = process.env.PORT || 3000;
 
+console.log('Starting server...');
+console.log('PORT:', port);
+console.log('NODE_ENV:', process.env.NODE_ENV);
+
 // Make database connection optional
 let client = null;
 
@@ -33,6 +37,12 @@ app.get('/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
+// Log all requests
+app.use((req, res, next) => {
+  console.log(`${req.method} ${req.path}`);
+  next();
+});
+
 // API endpoint example
 app.get('/api/test', async (req, res) => {
   if (!client) {
@@ -44,6 +54,11 @@ app.get('/api/test', async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
+});
+
+// Root endpoint
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 
 // Route handlers for each HTML page
@@ -68,6 +83,6 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 
-app.listen(port, () => {
+app.listen(port, '0.0.0.0', () => {
   console.log(`Server running on port ${port}`);
 });
