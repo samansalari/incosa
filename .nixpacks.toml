@@ -1,6 +1,3 @@
-[phases.setup]
-nixPkgs = ["nodejs-20_x", "npm-9_x"]
-
 [phases.build]
 cmds = ["npm install", "npm run build"]
 
@@ -9,4 +6,7 @@ cmd = "node_modules/.bin/vite preview --host 0.0.0.0 --port $PORT"
 
 [static]
 nginx = false
+
+[build.env]
+NODE_VERSION = "20"
 
