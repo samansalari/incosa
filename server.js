@@ -5,25 +5,39 @@ const path = require('path');
 const app = express();
 const port = process.env.PORT || 3000;
 
-// Database connection
-const client = new Client({
-  connectionString: process.env.DATABASE_URL || 'postgresql://postgres:irmMpsfQdvYRTuqegZJpfDUTkGUTUJnH@turntable.proxy.rlwy.net:45203/railway?sslmode=require',
-  ssl: { rejectUnauthorized: false },
-});
+// Make database connection optional
+let client = null;
 
-client.connect((err) => {
-  if (err) {
-    console.error('Connection error', err.stack);
-  } else {
-    console.log('Connected to database');
-  }
-});
+if (process.env.DATABASE_URL) {
+  client = new Client({
+    connectionString: process.env.DATABASE_URL,
+    ssl: { rejectUnauthorized: false },
+  });
+
+  client.connect((err) => {
+    if (err) {
+      console.error('Database connection error (non-critical):', err.message);
+    } else {
+      console.log('Connected to database');
+    }
+  });
+} else {
+  console.log('DATABASE_URL not set - running without database');
+}
 
 // Serve static files from dist
 app.use(express.static(path.join(__dirname, 'dist')));
 
+// Health check endpoint
+app.get('/health', (req, res) => {
+  res.json({ status: 'ok', timestamp: new Date().toISOString() });
+});
+
 // API endpoint example
 app.get('/api/test', async (req, res) => {
+  if (!client) {
+    return res.status(503).json({ error: 'Database not connected' });
+  }
   try {
     const result = await client.query('SELECT NOW()');
     res.json({ message: 'Database connected', time: result.rows[0] });
