@@ -190,6 +190,7 @@
   width: 50%;
 }
 
+
 /* index - intro section */
 .intro {
   position: relative;
@@ -242,6 +243,31 @@
   border-radius: 50%;
   background: var(--base-500);
   display: inline-block;
+}
+
+.intro
+  .container
+  .stats-container
+  .stat
+  .stat-copy
+  .stats-copy-label
+  .stats-copy-sub {
+  margin-top: 0.35rem;
+  margin-left: 1rem;
+  font-size: clamp(0.75rem, 0.6vw, 0.85rem);
+  letter-spacing: 0.2rem;
+  color: var(--base-200);
+}
+
+.intro
+  .container
+  .stats-container
+  .stat
+  .stat-copy
+  .stats-copy-count
+  .stat-version {
+  text-transform: none;
+  letter-spacing: 0.125rem;
 }
 
 .intro .container .intro-header {
@@ -355,10 +381,20 @@
 }
 
 .cta .cta-content .cta-logo {
-  width: 150px;
-  height: 150px;
-  overflow: hidden;
+  width: min(520px, 60vw);
+  aspect-ratio: 986.15 / 209.69;
+  height: auto;
   transform: scale(0);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cta .cta-content .cta-logo img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  display: block;
 }
 
 .cta .cta-content .cta-copy {
