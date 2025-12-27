@@ -32,7 +32,24 @@ app.get('/api/test', async (req, res) => {
   }
 });
 
-// Catch all handler: send back index.html for client-side routing
+// Route handlers for each HTML page
+app.get('/observatory', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dist', 'observatory.html'));
+});
+
+app.get('/expedition', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dist', 'expedition.html'));
+});
+
+app.get('/traces', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dist', 'traces.html'));
+});
+
+app.get('/contact', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dist', 'contact.html'));
+});
+
+// Default handler: send back index.html
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
