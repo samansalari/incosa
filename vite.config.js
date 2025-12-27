@@ -1,15 +1,18 @@
 import { defineConfig } from "vite";
-import { resolve } from "path";
+import path from "path";
+import { fileURLToPath } from "node:url";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig({
   build: {
     rollupOptions: {
       input: {
-        main: resolve(__dirname, "index.html"),
-        observatory: resolve(__dirname, "observatory.html"),
-        expedition: resolve(__dirname, "expedition.html"),
-        traces: resolve(__dirname, "traces.html"),
-        contact: resolve(__dirname, "contact.html"),
+        main: path.resolve(__dirname, "index.html"),
+        observatory: path.resolve(__dirname, "observatory.html"),
+        expedition: path.resolve(__dirname, "expedition.html"),
+        traces: path.resolve(__dirname, "traces.html"),
+        contact: path.resolve(__dirname, "contact.html"),
       },
     },
     assetsInclude: [
