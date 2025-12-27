@@ -24,4 +24,12 @@ export default defineConfig({
     ],
     copyPublicDir: true,
   },
+  server: {
+    port: 3000,
+    host: true
+  },
+  preview: {
+    port: 3000,
+    host: '0.0.0.0'
+  }
 });
