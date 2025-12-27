@@ -1,12 +1,11 @@
 [phases.build]
 cmds = ["npm install", "npm run build"]
 
-[phases.start]
-cmd = "node_modules/.bin/vite preview --host 0.0.0.0 --port $PORT"
+[start]
+cmd = "npm start"
 
 [static]
 nginx = false
 
 [build.env]
 NODE_VERSION = "20"
-
