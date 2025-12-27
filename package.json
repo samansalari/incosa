@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "vite preview --host 0.0.0.0 --port ${PORT:-3000}",
+    "start": "npx vite preview --host 0.0.0.0 --port ${PORT:-3000}",
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview --host 0.0.0.0",
+    "preview": "npx vite preview",
     "host": "vite --host"
   },
   "keywords": [],
